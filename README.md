@@ -1,119 +1,99 @@
-📘 AWS Lambda + DynamoDB – Serverless Learner Management System
 
-This project demonstrates how to build a serverless backend using AWS Lambda and Amazon DynamoDB to store and retrieve learner information.
+🚀 AWS Lambda + DynamoDB – Serverless Learner Management System
 
-☁️ Cloud Platform
+This project shows how to build a serverless backend using AWS Lambda and Amazon DynamoDB to store and fetch learner data.
 
-Built on Amazon Web Services (AWS)
+☁️ AWS Resources Used
 
-Services used:
-
-AWS Lambda
-
-Amazon DynamoDB
-
-AWS IAM
-
-Amazon CloudWatch
+⚡ AWS Lambda – Backend logic
+🗄️ Amazon DynamoDB – Database
+🔐 AWS IAM – Security permissions
+📊 Amazon CloudWatch – Logs
 
 📚 Definitions
-AWS Lambda
 
-AWS Lambda is a serverless compute service that runs your code without managing servers.
-
-DynamoDB
-
-DynamoDB is a fully managed NoSQL database used to store application data.
-
-IAM
-
-IAM controls which AWS services can access other AWS services.
-
-CloudWatch
-
-CloudWatch stores logs and helps debug AWS Lambda.
+⚡ AWS Lambda – Runs code without servers
+🗄️ DynamoDB – NoSQL cloud database
+🔐 IAM – Controls access to AWS services
+📊 CloudWatch – Shows Lambda logs
 
 🧩 Architecture
-Client / Test Event
-        |
-        v
-   AWS Lambda
-        |
-        v
- Amazon DynamoDB
 
-🗄 DynamoDB Table
+Client → AWS Lambda → DynamoDB
+
+🗄️ DynamoDB Table
 
 Table Name: Learners
 
-Attribute	Type
-learner_id	Number (Primary Key)
-RollNo	String
-name	String
-🔹 Lambda 1 – Insert Data
-Purpose
+Fields
+🔑 learner_id (Number – Primary Key)
+📄 RollNo (String)
+👤 name (String)
 
-Store learner data in DynamoDB.
+🛠️ Step-by-Step Setup
 
-Code
+1️⃣ Create DynamoDB Table
+AWS Console → DynamoDB → Create table
+Name: Learners
+Partition Key: learner_id (Number)
+Click Create
+
+2️⃣ Create Insert Lambda
+AWS Console → Lambda → Create function
+Name: insert-learner
+Runtime: Python
+Attach IAM policy: AmazonDynamoDBFullAccess
+
+Insert Lambda Code
 import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Learners')
+table = boto3.resource('dynamodb').Table('Learners')
 
 def lambda_handler(event, context):
-    table.put_item(
-        Item={
-            "learner_id": int(event["learner_id"]),
-            "RollNo": event["RollNo"],
-            "name": event["name"]
-        }
-    )
-    return "Data inserted successfully"
+table.put_item(Item={
+"learner_id": int(event["learner_id"]),
+"RollNo": event["RollNo"],
+"name": event["name"]
+})
+return "Inserted"
 
-Test Event
-{
-  "learner_id": 1,
-  "RollNo": "A123",
-  "name": "Ankit"
-}
+Insert Test Input
+learner_id = 1
+RollNo = A123
+name = Ankit
 
-🔹 Lambda 2 – Fetch Data
-Purpose
+3️⃣ Create Fetch Lambda
+Create new Lambda → fetch-learner
+Attach DynamoDB permission
 
-Retrieve learner data using learner_id.
-
-Code
+Fetch Lambda Code
 import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Learners')
+table = boto3.resource('dynamodb').Table('Learners')
 
 def lambda_handler(event, context):
-    response = table.get_item(
-        Key={"learner_id": int(event["learner_id"])}
-    )
-    return response.get("Item", "Learner not found")
+res = table.get_item(Key={"learner_id": int(event["learner_id"])})
+return res.get("Item", "Not found")
 
-Test Event
-{
-  "learner_id": 1
-}
+Fetch Test Input
+learner_id = 1
 
-🟢 Output
-{'learner_id': Decimal('1'), 'RollNo': 'A123', 'name': 'Ankit'}
+Fetch Output
+learner_id = 1
+RollNo = A123
+name = Ankit
 
-❌ Error Cases
-Scenario	Result
-Missing learner_id	Error
-learner_id not found	Learner not found
+❌ Error Scenarios
+
+Missing learner_id → learner_id is required
+Wrong learner_id → Not found
+
 🧠 What This Project Shows
-Skill	Description
-Serverless computing	AWS Lambda
-NoSQL database	DynamoDB
-Cloud security	IAM
-Debugging	CloudWatch
-Backend API	JSON input/output
-📄 Resume-Ready Line
+
+✔ Serverless backend
+✔ DynamoDB integration
+✔ IAM security
+✔ CloudWatch logging
+✔ Real cloud workflow
+
+📄 Resume Line
 
 Built a serverless backend using AWS Lambda and DynamoDB to store and retrieve learner data with secure IAM permissions and cloud-based logging.
