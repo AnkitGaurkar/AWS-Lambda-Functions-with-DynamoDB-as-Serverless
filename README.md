@@ -1,6 +1,6 @@
 🚀 AWS_Lambda_Function_With_DynamoDB (Serverless)
 
-This project demonstrates how to build a serverless backend using AWS Lambda and Amazon DynamoDB to insert and fetch data without managing servers.
+This project demonstrates how to build a serverless backend using AWS Lambda and Amazon DynamoDB to insert and fetch data without managing servers..
 
 ☁️ AWS Services Used
 
