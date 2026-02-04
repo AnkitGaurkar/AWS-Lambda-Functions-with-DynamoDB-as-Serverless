@@ -2,7 +2,7 @@
 
 This project demonstrates how to build a serverless backend using AWS Lambda and Amazon DynamoDB to insert and fetch data without managing any servers.
 
-It reflects a real-world event-driven cloud architecture used in modern applications.
+It reflects a real-world event-driven cloud architecture used in modern applications..
 
 ☁️ AWS Services Used
 Service	Purpose
